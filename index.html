@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitZone Elite Gym - Your Peak Performance Starts Here</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498DB;
+            --secondary-color: #2C3E50;
+            --light-gray: #f4f6f8;
+            --text-color: #333;
+            --card-bg: #fff;
+            --footer-bg: #2C3E50;
+        }
+
+        /* --- General Styles --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            color: var(--text-color);
+            background-color: var(--light-gray);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scrollbar from animations */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px; /* Adjusted padding for better control */
+        }
+        .section {
+            padding: 80px 0; /* Increased padding */
+            background-color: var(--card-bg);
+            border-bottom: 1px solid #eee;
+            opacity: 0; /* For scroll reveal */
+            transform: translateY(30px); /* For scroll reveal */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section:nth-child(even) { /* Alternate section background for visual break if desired */
+             /* background-color: var(--light-gray); */ /* Example, can be enabled */
+        }
+        .section h2 {
+            font-size: 2.8em; /* Slightly larger */
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 25px; /* Adjusted */
+            border-bottom: 4px solid var(--primary-color);
+            padding-bottom: 15px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        .section > .container > p { /* Targeting paragraphs directly under section container for intro text */
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 40px auto; /* Centering and adding bottom margin */
+            font-size: 1.1em;
+            color: #555;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 8px; /* Fine-tuned padding */
+            background-color: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            border: none; /* Ensure button resets */
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #217dbb;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+        .btn:active {
+            transform: translateY(-2px) scale(0.98); /* Press down effect */
+        }
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+        .btn-secondary:hover {
+            background-color: #1a252f;
+        }
+
+        /* --- Header Styles --- */
+        .header {
+            background-color: var(--card-bg);
+            padding: 15px 0; /* Adjusted padding */
+            border-bottom: 4px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000; /* Ensure header is on top */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Existing .logo styles - keeping display/flex for header layout */
+        .logo {
+            display: flex;
+            flex-direction: column; /* Stack logo lines and slogan */
+            line-height: 1;
+            /* Removed conflicting appearance styles: font-size, font-weight, color */
+        }
+
+        /* NEW Logo Styles from Invoice */
+        .new-logo {
+            margin-bottom: 5px; /* Adjusted slightly from 10px to fit header */
+        }
+        .new-logo .logo-line1 {
+            font-size: 32px; /* Slightly larger */
+            font-weight: bold;
+            color: #2C3E50; /* Dark Blue */
+            letter-spacing: 1.5px; /* Slight increase */
+        }
+        .new-logo .logo-line1 .fit {
+            color: #3498DB; /* Brighter Blue */
+        }
+        .new-logo .logo-line2 {
+            font-size: 20px; /* Slightly larger */
+            font-weight: 300;
+            color: #7F8C8D; /* Grey */
+            letter-spacing: 5px; /* Slight increase */
+            text-transform: uppercase;
+        }
+        .slogan { /* Using .slogan directly as .logo wraps it */
+            margin-top: 8px; /* Slight increase */
+            font-style: italic;
+            font-size: 15px; /* Slight increase */
+            color: #555;
+            margin-bottom: 0; /* Ensure no extra space below slogan */
+        }
+         /* END NEW Logo Styles */
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        nav li {
+            margin-left: 30px; /* Increased spacing */
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+            position: relative; /* For underline effect */
+            padding-bottom: 5px; /* Space for underline */
+        }
+        nav a::after { /* Underline hover effect */
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        nav a:hover {
+            color: var(--primary-color);
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Hero Section Styles --- */
+        .hero { /* This section is not subject to scroll reveal in this setup */
+            padding: 100px 0;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            min-height: 85vh; /* Give it more height */
+        }
+         .hero .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero h1 {
+            font-size: 3.8em; /* Slightly larger */
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.6); /* Enhanced shadow */
+            animation: fadeInDown 1s ease-out; /* Simple animation */
+        }
+        .hero p {
+            font-size: 1.35em; /* Slightly larger */
+            color: #f0f0f0;
+            margin-bottom: 35px; /* Increased margin */
+            max-width: 700px;
+            line-height: 1.7;
+            padding: 0 20px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out 0.3s; /* Simple animation, delayed */
+            animation-fill-mode: both; /* Keep state after animation */
+        }
+        .hero .btn{
+            margin-top: 15px;
+            animation: fadeInUp 1s ease-out 0.6s; /* Simple animation, delayed */
+            animation-fill-mode: both;
+        }
+
+        /* Animations for Hero text */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* --- About Section Styles --- */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px; /* Increased gap */
+            align-items: center;
+        }
+        .about-content img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1); /* Enhanced shadow */
+            object-fit: cover;
+            max-height: 450px;
+            transition: transform 0.3s ease;
+        }
+        .about-content img:hover {
+            transform: scale(1.03); /* Slight scale on image hover */
+        }
+        .about-text {
+             /* padding-left: 20px; No padding needed if gap is sufficient */
+        }
+         .about-text p:first-of-type { /* Style the main paragraph */
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .about-text h3 {
+            font-size: 1.7em; /* Increased size */
+            color: var(--secondary-color);
+            margin-top: 25px;
+            margin-bottom: 20px; /* Increased margin */
+        }
+        .services-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px; /* Increased gap */
+            margin-top: 20px;
+        }
+        .services-list li {
+            background-color: var(--light-gray); /* Alternate background for list items */
+            padding: 25px; /* Increased padding */
+            border-radius: 10px;
+            border: 1px solid #ddd; /* Slightly more visible border */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .services-list li:hover {
+            transform: translateY(-8px) scale(1.02); /* Enhanced hover */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        .services-list li h3{
+            color: var(--secondary-color);
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.35em; /* Increased size */
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+        /* --- Membership Section Styles --- */
+        .membership-packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Wider cards */
+            gap: 30px; /* Increased gap */
+            margin-top: 30px;
+        }
+        .membership-package {
+            background-color: var(--card-bg);
+            padding: 35px; /* Increased padding */
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .membership-package:hover {
+            transform: translateY(-10px) scale(1.03); /* Enhanced hover */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .membership-package h3 {
+            font-size: 1.9em; /* Increased size */
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        .membership-package ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px 0; /* Increased margin */
+            flex-grow: 1;
+        }
+        .membership-package li {
+            margin-bottom: 14px; /* Increased margin */
+            color: #555;
+            line-height: 1.7;
+            padding-left: 28px; /* Increased padding */
+            position: relative;
+            font-size: 1.05em; /* Slightly larger font */
+        }
+        .membership-package li::before {
+            content: '\2713';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.1em; /* Adjust checkmark size */
+        }
+        .membership-package .price {
+            font-size: 2.4em; /* Increased size */
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 30px; /* Increased margin */
+            text-align: center;
+        }
+        .membership-package .price small {
+            font-size: 0.5em;
+            font-weight: 400;
+            color: #777;
+            display: block;
+            margin-top: 5px;
+        }
+        .membership-package .btn{
+            margin-top: auto;
+            width: 100%;
+        }
+        /* --- Training Section Styles --- */
+        .training-programs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Wider cards */
+            gap: 30px; /* Increased gap */
+            margin-top: 30px;
+        }
+        .training-program{
+            background-color: var(--light-gray); /* Alternate background */
+            padding: 30px; /* Increased padding */
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .training-program:hover {
+            transform: translateY(-10px) scale(1.02); /* Enhanced hover */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        .training-program h3{
+            color: var(--secondary-color);
+            margin-bottom: 15px; /* Increased margin */
+            font-size: 1.5em; /* Increased size */
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px; /* Increased padding */
+        }
+        .training-program p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            font-size: 1.05em; /* Slightly larger font */
+        }
+        .training-program ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px; /* Increased margin */
+            flex-grow: 1;
+        }
+        .training-program li {
+            color: #555;
+            margin-bottom: 10px; /* Increased margin */
+            line-height: 1.6;
+            padding-left: 25px;
+            position: relative;
+        }
+         .training-program li::before {
+            content: '\2022';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.3em;
+            line-height: 1;
+        }
+        .training-program .btn{
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* --- Contact Section Styles --- */
+        .contact-info {
+            text-align: center;
+            margin-bottom: 40px; /* Increased margin */
+            background-color: var(--light-gray);
+            padding: 35px; /* Increased padding */
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        .contact-info p {
+            margin: 18px 0; /* Increased margin */
+            font-size: 1.15em; /* Increased size */
+            color: #666;
+        }
+        .contact-info p strong {
+            color: var(--secondary-color);
+        }
+        .contact-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        .contact-form {
+            max-width: 650px; /* Slightly wider */
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Increased gap */
+            margin-top: 30px;
+        }
+        .contact-form input, .contact-form textarea {
+            padding: 15px; /* Increased padding */
+            border: 1px solid #ccc;
+            border-radius: 8px; /* More rounded */
+            font-size: 1em;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3); /* Focus ring */
+        }
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 140px; /* Increased min-height */
+            height: 160px;
+        }
+        .contact-form button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            align-self: center; /* Keep centered */
+            margin-top: 10px;
+        }
+
+        /* --- Footer Styles --- */
+        .footer {
+            background-color: var(--footer-bg);
+            color: #e0e0e0;
+            text-align: center;
+            padding: 40px 0; /* Increased padding */
+            font-size: 0.95em;
+            margin-top: 50px; /* Increased margin */
+            border-top: 4px solid var(--primary-color); /* Thicker border */
+        }
+        .footer p {
+            margin: 0;
+        }
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 992px) {
+            .container {
+                padding: 0 15px; /* Consistent padding */
+            }
+            .header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .header nav {
+                margin-top: 20px;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav li {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            .hero h1 {
+                font-size: 3em;
+            }
+            .hero p {
+                font-size: 1.2em;
+            }
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 30px; /* Adjust gap */
+            }
+            .about-text {
+                text-align: center;
+            }
+            .about-content img {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 80%; /* Ensure image doesn't touch edges */
+            }
+             .about-text h3 {
+                text-align: center;
+            }
+            .section > .container > p { /* For intro paras under h2 */
+                text-align: center;
+            }
+            .section h2{
+                font-size: 2.2em;
+            }
+            .services-list, .membership-packages, .training-programs {
+                grid-template-columns: 1fr; /* Stack on smaller screens */
+            }
+            .services-list li {
+                padding: 20px;
+                text-align: center;
+            }
+            .services-list li::before { /* Adjust checkmark position for centered text */
+                left: 10px; /* Example adjustment */
+            }
+            .services-list li h3 {
+                 font-size: 1.25em;
+            }
+            .membership-package, .training-program {
+                padding: 25px; /* Adjusted padding */
+            }
+             .membership-package h3 { font-size: 1.7em; }
+            .membership-package .price { font-size: 2em; }
+            .training-program h3 { font-size: 1.4em; }
+
+            .contact-form input, .contact-form textarea, .contact-form button{
+                font-size: 0.95em;
+            }
+            .footer {
+                padding: 30px 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .hero p {
+                font-size: 1.1em;
+            }
+            .btn {
+                padding: 12px 24px; /* Adjusted button padding */
+                font-size: 0.95em;
+            }
+            .section h2{
+                font-size: 2em;
+            }
+            .services-list li {
+                padding: 20px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+             /* Removed conflicting .logo font-size */
+            .hero h1 {
+                font-size: 2em;
+            }
+            .hero p {
+                font-size: 1em;
+            }
+            .section h2{
+                font-size: 1.8em;
+            }
+            /* Ensure buttons take more manageable width on very small screens if needed */
+             .hero .btn, .membership-package .btn, .training-program .btn, .contact-form button {
+                 width: auto; /* Allow button to size to content or be styled full-width if preferred */
+                 padding-left: 20px;
+                 padding-right: 20px;
+             }
+             .contact-form button, .membership-package .btn, .training-program .btn {
+                 width: 100%; /* Full width for main action buttons in cards/forms */
+             }
+        }
+
+        /* ---Preloader Styles--- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Highest z-index */
+            transition: opacity 0.5s ease; /* Added fade out transition */
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        /* Hide preloader after loading */
+        .hidden {
+            opacity: 0;
+            visibility: hidden; /* Ensure it's not interactive */
+            pointer-events: none; /* Disable interaction */
+        }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                 <div class="new-logo">
+                    <span class="logo-line1"><span class="fit">Fit</span>Zone</span>
+                    <span class="logo-line2">ELITE</span>
+                </div>
+                <p class="slogan">"Your Peak Performance Starts Here"</p>
+                </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#membership">Membership</a></li>
+                    <li><a href="#training">Personal Training</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home" style="background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');">
+            <div class="container">
+                <h1>Unlock Your Potential at FitZone Elite</h1>
+                <p>Experience premium fitness facilities and expert guidance to achieve your goals in Gandhinagar. Your Peak Performance Starts Here.</p>
+                <a href="#membership" class="btn">Become a Member Today</a>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="container">
+                <h2>About Us</h2>
+                 <p>FitZone Elite Gym is a newly opened GYM, dedicated to providing best fitness experience in Gandhinagar. Our facility is equipped with advanced fitness equipment, and our team of expert personal trainers is committed to helping you reach your peak performance in a spacious and hygienic environment.</p>
+                <div class="about-content">
+                    <img src="https://images.pexels.com/photos/3768916/pexels-photo-3768916.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Modern Gym Interior">
+                    <div class="about-text">
+                        <h3>Our Premium Services:</h3>
+                        <ul class="services-list">
+                            <li><h3>Advanced Fitness Equipment</h3></li>
+                            <li><h3>Expert Personal Training</h3></li>
+                            <li><h3>Personalized Nutrition Guidance</h3></li>
+                            <li><h3>Modern Locker &amp; Shower Facilities</h3></li>
+                            <li><h3>Body Composition &amp; Fitness Tracking</h3></li>
+                            <li><h3>Spacious &amp; Hygienic Environment</h3></li>
+                           </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="membership">
+            <div class="container">
+                <h2>Membership Options</h2>
+                <p>Explore our flexible membership packages designed to fit your fitness journey and budget. Find the perfect plan to start achieving your goals today at our Gandhinagar facility.</p>
+                <div class="membership-packages">
+                    <div class="membership-package">
+                        <h3>Basic</h3>
+                        <p class="price">₹1,500<small>/month</small></p>
+                        <ul>
+                            <li>Access to Gym Floor</li>
+                            <li>Cardio &amp; Weight Machines</li>
+                            <li>Locker Room Access</li>
+                            <li>Basic Fitness Assessment</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-secondary">Choose Plan</a>
+                    </div>
+                    <div class="membership-package">
+                        <h3>Standard</h3>
+                        <p class="price">₹2,500<small>/month</small></p>
+                        <ul>
+                            <li>All Basic features</li>
+                            <li>Access to Group Classes (Yoga, Zumba, etc.)</li>
+                            <li>Bi-weekly Fitness Assessments</li>
+                            <li>Dietary Guidelines</li>
+                        </ul>
+                         <a href="#contact" class="btn">Choose Plan</a>
+                    </div>
+                    <div class="membership-package">
+                        <h3>Premium</h3>
+                        <p class="price">₹4,000<small>/month</small></p>
+                        <ul>
+                            <li>All Standard features</li>
+                            <li>Weekly 1-on-1 Personal Training Session</li>
+                            <li>Personalized Diet Plan</li>
+                            <li>Advanced Fitness Tracking</li>
+                            <li>Towel Service</li>
+                        </ul>
+                         <a href="#contact" class="btn btn-secondary">Choose Plan</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="training">
+             <div class="container">
+                <h2>Personal Training</h2>
+                <p>Our certified personal trainers are here to provide expert guidance, personalized workout plans, and the motivation you need to achieve your specific fitness goals effectively and safely.</p>
+                <div class="training-programs">
+                    <div class="training-program">
+                        <h3>Weight Loss Program</h3>
+                        <p>Tailored workouts and nutrition advice designed to help you shed those extra pounds safely and sustainably.</p>
+                        <ul>
+                            <li>Custom Workout Plan</li>
+                            <li>Calorie &amp; Macro Guidance</li>
+                            <li>Regular Progress Tracking</li>
+                        </ul>
+                         <a href="#contact" class="btn">Enquire Now</a>
+                    </div>
+                    <div class="training-program">
+                        <h3>Muscle Building Program</h3>
+                        <p>Focused training techniques and dietary strategies to help you build strength and muscle mass efficiently.</p>
+                         <ul>
+                            <li>Strength &amp; Hypertrophy Focus</li>
+                            <li>Protein &amp; Supplement Advice</li>
+                            <li>Periodization Planning</li>
+                        </ul>
+                         <a href="#contact" class="btn">Enquire Now</a>
+                    </div>
+                    <div class="training-program">
+                        <h3>Performance Training</h3>
+                        <p>Improve your athletic performance, agility, speed, and endurance with specialized training protocols.</p>
+                         <ul>
+                            <li>Sport-Specific Training</li>
+                            <li>Speed &amp; Agility Drills</li>
+                            <li>Endurance Conditioning</li>
+                        </ul>
+                         <a href="#contact" class="btn">Enquire Now</a>
+                    </div>
+                     <div class="training-program">
+                        <h3>Rehabilitation Support</h3>
+                        <p>Work safely with trainers knowledgeable in post-injury or post-rehab exercise, focused on safe movement and recovery.</p>
+                         <ul>
+                            <li>Injury-Aware Exercise</li>
+                            <li>Mobility &amp; Flexibility</li>
+                            <li>Gradual Strength Building</li>
+                        </ul>
+                         <a href="#contact" class="btn">Enquire Now</a>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <div class="contact-info">
+                    <p><strong>Location:</strong>: FitZone Elite, Keshvam Square, Nr. Shreedhar Shilp, Urjanagar1, Kudasan, Gandhinagar, Gujarat</p>
+                    <p><strong>Phone:</strong> <a href="tel:\[87333893408]">87333893408</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:\[billing@fitzoneelite.space]">billing@fitzoneelite.space</a></p>
+                     <p><strong>Hours:</strong> Mon-Sat: 6:00 AM - 10:00 PM | Sunday: 8:00 AM - 4:00 PM</p>
+                </div>
+                <p style="text-align: center;">Have questions? Send us a message:</p>
+                <form action="#" method="post" class="contact-form">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 FitZone Elite Gym. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Preloader fade out
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.classList.add('hidden');
+            }
+        });
+
+        // Scroll Reveal Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+
+            const revealSection = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            };
+
+            const sectionObserver = new IntersectionObserver(revealSection, {
+                root: null, // Use the viewport as the root
+                threshold: 0.1, // Trigger when 10% of the section is visible
+                rootMargin: '0px'
+            });
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
